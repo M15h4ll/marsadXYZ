@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>marasid.xyz - Event Data Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #f3f4f6;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .glass-panel {
+            background: rgba(20, 20, 25, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Image hover zoom effect */
+        .card-image-container {
+            overflow: hidden;
+        }
+        .card-image {
+            transition: transform 0.5s ease;
+        }
+        .product-card:hover .card-image {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-30 glass-panel border-b-0 border-white/5 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3 md:gap-4">
+                <!-- Logo: Attempts to load from assets, falls back to text if missing -->
+                <img src="assets/logo.png" alt="marasid.xyz Logo" class="h-8 md:h-12 object-contain hidden" id="company-logo" onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';">
+                <div id="logo-fallback" class="text-xl md:text-2xl font-black tracking-tighter text-white border-2 border-white px-2 py-1 bg-white/10">
+                    marasid.xyz
+                </div>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex gap-8 items-center">
+                <a href="#about" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">About Us</a>
+                <a href="#products" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Solutions</a>
+                <a href="#contact" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Contact Us</a>
+            </nav>
+
+            <!-- Mobile Nav Toggle -->
+            <button id="mobile-menu-btn" class="md:hidden text-gray-400 hover:text-white focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-[#141419]">
+            <nav class="flex flex-col p-4 gap-4">
+                <a href="#about" class="text-base font-medium text-gray-300 hover:text-white" onclick="toggleMobileMenu()">About Us</a>
+                <a href="#products" class="text-base font-medium text-gray-300 hover:text-white" onclick="toggleMobileMenu()">Solutions</a>
+                <a href="#contact" class="text-base font-medium text-gray-300 hover:text-white" onclick="toggleMobileMenu()">Contact Us</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content (Layers) -->
+    <main class="flex-grow w-full">
+        
+        <!-- Layer 1: About Us (Landing / Hero) -->
+        <section id="about" class="min-h-screen flex items-center pt-16 pb-12 px-4 md:px-6 max-w-7xl mx-auto w-full">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="flex flex-col justify-center">
+                    <div class="inline-block px-3 py-1 rounded-full bg-white/10 text-emerald-400 text-xs font-semibold tracking-wider uppercase w-max mb-6 border border-white/5">
+                        Data-Driven Event Intelligence
+                    </div>
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight leading-tight">
+                        Transforming spaces into <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-500">Actionable Insights.</span>
+                    </h1>
+                    <p class="text-gray-400 text-base md:text-xl mb-8 leading-relaxed max-w-lg">
+                        We specialize in raw data collection and comprehensive event management software. From real-time footfall counting at booths and retail shops to interactive digital exhibition passports, we help you understand and engage your audience.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#products" class="bg-white text-black px-6 md:px-8 py-3 md:py-4 rounded-full font-bold hover:bg-gray-200 transition-colors shadow-lg">Explore Solutions</a>
+                        <a href="#contact" class="glass-panel text-white px-6 md:px-8 py-3 md:py-4 rounded-full font-bold hover:bg-white/10 transition-colors">Contact Us</a>
+                    </div>
+                </div>
+                <div class="glass-panel p-2 rounded-2xl hidden lg:block shadow-2xl relative">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-emerald-500/10 to-transparent rounded-2xl pointer-events-none"></div>
+                    <!-- LOCAL IMAGE WITH FALLBACK -->
+                    <img src="assets/about.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=800&q=80';" alt="Event Crowds and Data Analytics" class="rounded-xl w-full h-auto object-cover aspect-square md:aspect-[4/3]">
+                </div>
+            </div>
+        </section>
+
+        <!-- Layer 2: Products -->
+        <section id="products" class="py-20 md:py-32 px-4 md:px-6 max-w-7xl mx-auto w-full relative z-10 border-t border-white/5">
+            <div class="mb-8 md:mb-12 text-center md:text-left">
+                <h2 class="text-3xl md:text-5xl font-bold mb-2 md:mb-4">Our Solutions</h2>
+                <p class="text-gray-400 text-sm md:text-lg max-w-2xl mx-auto md:mx-0">Explore our latest innovations. Click on any product to view detailed specifications, high-resolution previews, and feature videos.</p>
+            </div>
+
+            <!-- Product Grid Container -->
+            <div id="product-grid" class="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
+                <!-- Products will be injected here via JavaScript -->
+            </div>
+        </section>
+
+        <!-- Layer 3: Contact Us -->
+        <section id="contact" class="py-20 md:py-32 px-4 md:px-6 max-w-7xl mx-auto w-full border-t border-white/5 relative">
+            <div class="mb-10 md:mb-16 text-center">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">Get in Touch</h2>
+                <p class="text-gray-400 text-sm md:text-lg max-w-2xl mx-auto">Have questions about our analytics or want to discuss a partnership? Send us a message and our team will get back to you shortly.</p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto glass-panel p-6 md:p-10 rounded-2xl shadow-2xl relative overflow-hidden">
+                <!-- Abstract Background Glows -->
+                <div class="absolute -top-32 -right-32 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-32 -left-32 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <!-- LIVE FORMSPREE INTEGRATION -->
+                <form action="https://formspree.io/f/meepqjzy" method="POST" class="flex flex-col gap-5 md:gap-6 relative z-10">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+                        <div class="flex flex-col gap-2">
+                            <label class="text-xs md:text-sm text-gray-400 font-medium">Full Name</label>
+                            <input type="text" name="name" class="bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-white/30 transition-colors" placeholder="Jane Doe" required>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <label class="text-xs md:text-sm text-gray-400 font-medium">Email Address</label>
+                            <input type="email" name="email" class="bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-white/30 transition-colors" placeholder="jane@example.com" required>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="text-xs md:text-sm text-gray-400 font-medium">Message</label>
+                        <textarea name="message" rows="5" class="bg-black/50 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-white/30 transition-colors resize-none" placeholder="How can we help you collect better data?" required></textarea>
+                    </div>
+                    <button type="submit" class="bg-white text-black py-3 md:py-4 rounded-lg font-bold hover:bg-gray-200 transition-colors mt-2 text-sm md:text-base">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-8 text-center text-gray-500 text-sm">
+        <p>&copy; 2026 marasid.xyz. All rights reserved.</p>
+    </footer>
+
+    <!-- Product Details Modal (Hidden by default) -->
+    <div id="product-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 opacity-0 pointer-events-none transition-all duration-300 bg-black/80 backdrop-blur-sm">
+        <div class="glass-panel w-full max-w-5xl max-h-[90vh] rounded-2xl overflow-y-auto shadow-2xl flex flex-col transform scale-95 transition-transform duration-300" id="modal-content">
+            
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center p-4 md:p-6 border-b border-white/10 sticky top-0 bg-[#141419]/90 backdrop-blur-md z-10">
+                <h2 id="modal-title" class="text-xl md:text-3xl font-bold text-white">Product Title</h2>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white transition-colors p-2 bg-white/5 rounded-full hover:bg-white/20 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 md:h-6 md:w-6 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-4 md:p-8 grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12">
+                <!-- Media Section (Video) -->
+                <div class="flex flex-col gap-3 md:gap-4">
+                    <div class="aspect-video w-full rounded-xl overflow-hidden bg-black border border-white/10 shadow-lg relative">
+                        <!-- YouTube Iframe -->
+                        <iframe id="modal-video" class="absolute inset-0 w-full h-full" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs md:text-sm text-gray-400 uppercase tracking-widest font-semibold mt-1 md:mt-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                        </svg>
+                        Featured Profile Video
+                    </div>
+                </div>
+
+                <!-- Text & Details Section -->
+                <div class="flex flex-col h-full">
+                    <div class="prose prose-invert max-w-none flex-grow">
+                        <h3 class="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-white">Overview</h3>
+                        <!-- Added whitespace-pre-wrap to ensure bullet points and line breaks display perfectly -->
+                        <p id="modal-description" class="text-gray-300 text-sm md:text-lg leading-relaxed mb-4 md:mb-6 whitespace-pre-wrap">Detailed product description goes here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        /**
+         * -------------------------------------------------------------------
+         * DATA CONFIGURATION
+         * -------------------------------------------------------------------
+         */
+        const PRODUCTS_DATA = [
+            {
+                id: 'prod1',
+                title: 'Vision-AI Spatial Analytics',
+                shortDesc: 'Camera based Real-time crowd analytics for exhibitions.',
+                description: 'Designed for brands seeking deep behavioral insights in an unrestricted environment.\n\n• Zero-Barrier Experience: Ceiling-mounted technology keeps your booth wide open and inviting.\n• Behavioral Mapping: Tracks complete visitor journeys, including heatmaps and dwell times at specific displays.\n• Intelligent Reporting: We provide comprehensive analytics, engagement graphs, and peak-time performance reports to validate your strategy.',
+                localImage: 'assets/product1/preview.jpg',
+                fallbackImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
+                videoUrl: 'https://www.youtube.com/embed/ScMzIvxBSi4'
+            },
+            {
+                id: 'prod2',
+                title: 'Precision Beam',
+                shortDesc: 'The gold standard for reliable attendance metrics with complete anonymity.',
+                description: 'The gold standard for reliable attendance metrics with complete anonymity.\n\n• 100% Privacy-First: Operates via stylized light beams; inherently compliant with all data regulations.\n• Definitive Metrics: Creates a curated entrance that captures precise, unclouded entry and exit tallies.\n• Streamlined Data: Provides reliable, immediate footfall counts (detailed behavioral analytics and graphs are not available with this solution).',
+                localImage: 'assets/product2/preview.jpg',
+                fallbackImage: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80',
+                videoUrl: 'https://www.youtube.com/embed/tO01J-M3g0U'
+            },
+            {
+                id: 'prod3',
+                title: 'Interactive Visitor Journey',
+                shortDesc: 'Turn your event into an engaging and rewarding experience for every attendee.',
+                description: 'Boost active participation. Turn your event into an engaging and rewarding experience for every attendee.\n\n• Seamless Onboarding: Visitors register quickly via a web link. They only need their name and mobile number. No app downloads are required.\n• Interactive Exploration: Guests build a "Digital Passport." They scan unique QR codes at every exhibit. This actively drives foot traffic to all areas.\n• Incentivized Engagement: Scanning all codes unlocks a reward. Visitors are automatically entered into an exclusive prize draw. This creates a highly motivated crowd.\n\nEmpowering Your Event Experience\nTransform passive attendees into active participants. This frictionless, gamified journey guarantees maximum exposure for every booth.',
+                localImage: 'assets/product3/preview.jpg',
+                fallbackImage: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80',
+                videoUrl: 'https://www.youtube.com/embed/tO01J-M3g0U'
+            }
+        ];
+
+        // Ensure logo attempts to load
+        document.getElementById('company-logo').style.display = 'block';
+        document.getElementById('logo-fallback').style.display = 'none';
+
+        /**
+         * -------------------------------------------------------------------
+         * DOM ELEMENTS & MOBILE MENU LOGIC
+         * -------------------------------------------------------------------
+         */
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            window.toggleMobileMenu = function() {
+                mobileMenu.classList.add('hidden');
+            };
+        }
+
+        /**
+         * -------------------------------------------------------------------
+         * MODAL LOGIC
+         * -------------------------------------------------------------------
+         */
+        const modal = document.getElementById('product-modal');
+        const modalContent = document.getElementById('modal-content');
+        const modalVideo = document.getElementById('modal-video');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDesc = document.getElementById('modal-description');
+        const productGrid = document.getElementById('product-grid');
+
+        window.openModal = function(productId) {
+            const product = PRODUCTS_DATA.find(p => p.id === productId);
+            if (!product) return;
+
+            // Populate Data
+            modalTitle.innerText = product.title;
+            // Preserving line breaks in the description
+            modalDesc.innerText = product.description; 
+            modalVideo.src = product.videoUrl;
+            
+            // Show Modal using Tailwind Classes
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.add('opacity-100', 'pointer-events-auto');
+            
+            modalContent.classList.remove('scale-95');
+            modalContent.classList.add('scale-100');
+            
+            document.body.style.overflow = 'hidden'; // Lock scroll
+        };
+
+        window.closeModal = function() {
+            // Hide Modal using Tailwind Classes
+            modal.classList.remove('opacity-100', 'pointer-events-auto');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            
+            document.body.style.overflow = ''; // Restore scroll
+            
+            // Stop Video playback completely so it doesn't run in background
+            modalVideo.src = '';
+        };
+
+        // Close modal when clicking outside the main window
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close modal on Escape key press
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('opacity-100')) {
+                closeModal();
+            }
+        });
+
+        /**
+         * -------------------------------------------------------------------
+         * RENDER PRODUCTS TO GRID
+         * -------------------------------------------------------------------
+         */
+        function renderProducts() {
+            const htmlString = PRODUCTS_DATA.map(product => {
+                const safeFallback = product.fallbackImage.replace(/'/g, "\\'");
+                
+                return `
+                    <article onclick="openModal('${product.id}')" class="product-card glass-panel rounded-xl md:rounded-2xl overflow-hidden cursor-pointer flex flex-col transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.1)] hover:-translate-y-1 border border-white/5">
+                        <div class="card-image-container aspect-[4/3] w-full bg-gray-900 relative pointer-events-none">
+                            <img 
+                                src="${product.localImage}" 
+                                onerror="this.onerror=null; this.src='${safeFallback}';" 
+                                alt="${product.title}" 
+                                class="card-image w-full h-full object-cover"
+                            />
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                        </div>
+                        <div class="p-3 md:p-6 flex flex-col flex-grow pointer-events-none">
+                            <h3 class="text-base md:text-2xl font-bold text-white mb-1 md:mb-2 line-clamp-1">${product.title}</h3>
+                            <p class="text-gray-400 text-xs md:text-sm mb-3 md:mb-6 flex-grow line-clamp-2 md:line-clamp-none">${product.shortDesc}</p>
+                            
+                            <div class="mt-auto flex items-center text-xs md:text-sm font-semibold text-white/80 group">
+                                <span class="hidden sm:inline">View Details</span>
+                                <span class="sm:hidden">View</span> 
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 md:h-4 md:w-4 ml-1 md:ml-2 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                </svg>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+
+            productGrid.innerHTML = htmlString;
+        }
+
+        // Initialize the view
+        renderProducts();
+
+    </script>
+</body>
+</html>
