@@ -121,7 +121,7 @@
                 <p class="text-gray-400 text-sm md:text-lg max-w-2xl mx-auto md:mx-0">Explore our latest innovations. Click on any product to view detailed specifications, high-resolution previews, and feature videos.</p>
             </div>
 
-            <!-- Product Grid Container -->
+            <!-- Product Grid Container: 2 columns on mobile, 3 on large screens -->
             <div id="product-grid" class="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
                 <!-- Products will be injected here via JavaScript -->
             </div>
@@ -223,7 +223,7 @@
                 description: 'Designed for brands seeking deep behavioral insights in an unrestricted environment.\n\n• Zero-Barrier Experience: Ceiling-mounted technology keeps your booth wide open and inviting.\n• Behavioral Mapping: Tracks complete visitor journeys, including heatmaps and dwell times at specific displays.\n• Intelligent Reporting: We provide comprehensive analytics, engagement graphs, and peak-time performance reports to validate your strategy.',
                 localImage: 'assets/product1/preview.jpg',
                 fallbackImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
-                videoUrl: 'https://www.youtube.com/watch?si=vIDHGcaCrs26cq2W&v=sb07Nalgml4&feature=youtu.be'
+                videoUrl: 'https://youtu.be/sb07Nalgml4?si=RQd6Ml8R5IRrHnKW' // Can now use ANY youtube link format
             },
             {
                 id: 'prod2',
@@ -232,7 +232,7 @@
                 description: 'The gold standard for reliable attendance metrics with complete anonymity.\n\n• 100% Privacy-First: Operates via stylized light beams; inherently compliant with all data regulations.\n• Definitive Metrics: Creates a curated entrance that captures precise, unclouded entry and exit tallies.\n• Streamlined Data: Provides reliable, immediate footfall counts (detailed behavioral analytics and graphs are not available with this solution).',
                 localImage: 'assets/product2/preview.jpg',
                 fallbackImage: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80',
-                videoUrl: 'https://www.youtube.com/watch?si=BB9OSIB6Wo1jgXrD&v=s6-4r4PmpF8&feature=youtu.be'
+                videoUrl: 'https://youtu.be/s6-4r4PmpF8?si=BB9OSIB6Wo1jgXrD'
             },
             {
                 id: 'prod3',
@@ -241,13 +241,52 @@
                 description: 'Boost active participation. Turn your event into an engaging and rewarding experience for every attendee.\n\n• Seamless Onboarding: Visitors register quickly via a web link. They only need their name and mobile number. No app downloads are required.\n• Interactive Exploration: Guests build a "Digital Passport." They scan unique QR codes at every exhibit. This actively drives foot traffic to all areas.\n• Incentivized Engagement: Scanning all codes unlocks a reward. Visitors are automatically entered into an exclusive prize draw. This creates a highly motivated crowd.\n\nEmpowering Your Event Experience\nTransform passive attendees into active participants. This frictionless, gamified journey guarantees maximum exposure for every booth.',
                 localImage: 'assets/product3/preview.jpg',
                 fallbackImage: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80',
-                videoUrl: 'https://www.youtube.com/embed/tO01J-M3g0U'
+                videoUrl: 'https://www.youtube.com/watch?v=tO01J-M3g0U'
             }
         ];
 
         // Ensure logo attempts to load
         document.getElementById('company-logo').style.display = 'block';
         document.getElementById('logo-fallback').style.display = 'none';
+
+        /**
+         * -------------------------------------------------------------------
+         * HELPER: YOUTUBE AUTO-FORMATTER
+         * -------------------------------------------------------------------
+         * Automatically converts standard watch URLs or youtu.be links 
+         * into the proper /embed/ format required for iframes.
+         */
+        function getEmbedUrl(url) {
+            if (!url) return '';
+            let videoId = '';
+            
+            // Extract from standard watch link (e.g., youtube.com/watch?v=123)
+            if (url.includes('youtube.com/watch?v=')) {
+                videoId = url.split('v=')[1];
+                const ampersandPosition = videoId.indexOf('&');
+                if (ampersandPosition !== -1) {
+                    videoId = videoId.substring(0, ampersandPosition);
+                }
+            } 
+            // Extract from short link (e.g., youtu.be/123)
+            else if (url.includes('youtu.be/')) {
+                videoId = url.split('youtu.be/')[1];
+                const questionMarkPosition = videoId.indexOf('?');
+                if (questionMarkPosition !== -1) {
+                    videoId = videoId.substring(0, questionMarkPosition);
+                }
+            } 
+            // If already embed link, return as is
+            else if (url.includes('youtube.com/embed/')) {
+                return url;
+            }
+
+            // Construct proper embed url
+            if (videoId) {
+                return `https://www.youtube.com/embed/${videoId}`;
+            }
+            return url;
+        }
 
         /**
          * -------------------------------------------------------------------
@@ -285,9 +324,10 @@
 
             // Populate Data
             modalTitle.innerText = product.title;
-            // Preserving line breaks in the description
             modalDesc.innerText = product.description; 
-            modalVideo.src = product.videoUrl;
+            
+            // SMART URL HANDLER: Automatically fixes bad youtube links!
+            modalVideo.src = getEmbedUrl(product.videoUrl);
             
             // Show Modal using Tailwind Classes
             modal.classList.remove('opacity-0', 'pointer-events-none');
@@ -372,3 +412,5 @@
     </script>
 </body>
 </html>
+
+
